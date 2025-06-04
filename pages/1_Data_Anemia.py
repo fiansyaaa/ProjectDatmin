@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 import os
 
 # Judul Halaman
@@ -40,7 +41,22 @@ try:
     if 'hemoglobin' in df.columns:
         st.markdown("#### Distribusi Kadar Hemoglobin")
         fig1, ax1 = plt.subplots()
-        ax1.hist(df['hemoglobin'].dropna(), bins=20, color='skyblue', edgecolor='black')
-        ax1.set_xlabel("Kadar Hemoglobin")
-        ax1.set_ylabel("Frekuensi")
-        st.pyplot(
+        sns.histplot(df['hemoglobin'], bins=20, kde=True, color='skyblue', ax=ax1)
+        st.pyplot(fig1)
+
+    # 2. Barplot Anemia Berdasarkan Jenis Kelamin
+    if 'gender' in df.columns and 'anemia' in df.columns:
+        st.markdown("#### Jumlah Kasus Anemia Berdasarkan Jenis Kelamin")
+        fig2, ax2 = plt.subplots()
+        sns.countplot(data=df, x='gender', hue='anemia', palette='Set2', ax=ax2)
+        st.pyplot(fig2)
+
+    # 3. Boxplot Umur dan Anemia
+    if 'age' in df.columns and 'anemia' in df.columns:
+        st.markdown("#### Distribusi Umur Berdasarkan Status Anemia")
+        fig3, ax3 = plt.subplots()
+        sns.boxplot(data=df, x='anemia', y='age', palette='Pastel1', ax=ax3)
+        st.pyplot(fig3)
+
+except FileNotFoundError:
+    st.error("Dataset tidak ditemukan. Pastikan file 'anemia_dataset.csv' ada di folder 'data/'.")
