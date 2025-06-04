@@ -13,8 +13,8 @@ try:
 
     # Bersihkan kolom tidak penting
     df = df.loc[:, ~df.columns.str.contains("Unnamed")]
-    df = df.drop(columns=["Name"], errors="ignore")  # jika ada kolom Name
-    df.columns = df.columns.str.strip()  # hilangkan spasi
+    df = df.drop(columns=["Name"], errors="ignore")
+    df.columns = df.columns.str.strip()
 
     # Cek kolom target
     if "Anaemic" not in df.columns:
@@ -50,21 +50,24 @@ try:
 
         input_data = {}
 
-        # Input numerik
+        # Input numerik (min dimulai dari 0)
         for col in numeric_cols:
-            min_val = float(df[col].min())
             max_val = float(df[col].max())
             mean_val = float(df[col].mean())
             input_data[col] = st.number_input(
-                f"{col}", min_value=min_val, max_value=max_val, value=mean_val
+                f"{col}",
+                min_value=0.0,
+                max_value=max_val,
+                value=mean_val
             )
 
         # Input kategorik
         for col in categorical_cols:
             options = df[col].dropna().unique().tolist()
             selected = st.selectbox(f"{col}", options)
-            for cat in pd.get_dummies(df[[col]], drop_first=True).columns:
-                input_data[cat] = 1.0 if selected in cat else 0.0
+            dummies = pd.get_dummies(df[[col]], drop_first=True)
+            for dummy_col in dummies.columns:
+                input_data[dummy_col] = 1.0 if selected in dummy_col else 0.0
 
         # Tombol prediksi
         if st.button("🔮 Prediksi"):
