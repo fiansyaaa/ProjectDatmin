@@ -8,35 +8,54 @@ from sklearn.naive_bayes import GaussianNB
 st.title("Prediksi Anemia")
 
 try:
+    # Baca dataset
     df = pd.read_csv("data/anemia_dataset.csv")
 
-    # Bersihkan nama kolom dari spasi
+    # Hilangkan spasi di nama kolom
     df.columns = df.columns.str.strip()
 
-    st.write("Kolom dalam data:", df.columns.tolist())
+    # Tampilkan kolom untuk debug
+    st.write("Kolom tersedia di dataset:", df.columns.tolist())
 
-    # Pastikan target tersedia
+    # Pastikan kolom target ada
     if "Anemia" not in df.columns:
-        st.error("Kolom 'Anemia' tidak ditemukan. Cek penamaan kolom di CSV.")
+        st.error("Kolom 'Anemia' tidak ditemukan di dataset.")
     else:
+        # Pisahkan fitur dan target
         X = df.drop(columns=["Anemia"])
         y = df["Anemia"]
 
+        # Normalisasi
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
 
-        model_name = st.selectbox("Pilih Metode", ["K-Nearest Neighbors (KNN)", "Naive Bayes"])
-        model = KNeighborsClassifier(n_neighbors=3) if model_name == "K-Nearest Neighbors (KNN)" else GaussianNB()
+        # Pilih model
+        model_choice = st.selectbox("Pilih Metode Klasifikasi", ["K-Nearest Neighbors (KNN)", "Naive Bayes"])
+
+        if model_choice == "K-Nearest Neighbors (KNN)":
+            model = KNeighborsClassifier(n_neighbors=3)
+        else:
+            model = GaussianNB()
+
+        # Latih model
         model.fit(X_scaled, y)
 
-        st.subheader("Input Data Baru")
-        input_data = {col: st.number_input(col, value=float(df[col].mean())) for col in X.columns}
+        st.subheader("Masukkan Data Baru untuk Prediksi")
+        input_data = {}
 
+        # Buat input untuk semua kolom fitur
+        for col in X.columns:
+            val = st.number_input(f"{col}", value=float(df[col].mean()))
+            input_data[col] = val
+
+        # Tombol prediksi
         if st.button("Prediksi"):
             input_df = pd.DataFrame([input_data])
             input_scaled = scaler.transform(input_df)
-            pred = model.predict(input_scaled)[0]
-            st.success(f"Hasil Prediksi: {'Anemia' if pred == 1 else 'Tidak Anemia'}")
+            prediction = model.predict(input_scaled)[0]
+
+            hasil = "Anemia" if prediction == 1 else "Tidak Anemia"
+            st.success(f"Hasil Prediksi: {hasil}")
 
 except FileNotFoundError:
-    st.error("File anemia_dataset.csv tidak ditemukan di folder data/.")
+    st.error("File anemia_dataset.csv tidak ditemukan di folder 'data/'. Pastikan file sudah diunggah.")
