@@ -9,7 +9,7 @@ st.title("📊 Dataset Anemia")
 
 # Deskripsi
 st.markdown("""
-Dataset ini berisi data kondisi anemia pasien berdasarkan fitur-fitur seperti umur, jenis kelamin, dan kadar hemoglobin.
+Dataset ini berisi data kondisi anemia berdasarkan ciri-ciri gambar seperti persentase warna piksel dan kadar hemoglobin (Hb).
 """)
 
 # Load data
@@ -17,13 +17,20 @@ data_path = os.path.join("data", "anemia_dataset.csv")
 
 @st.cache_data
 def load_data(path):
-    return pd.read_csv(path)
+    df = pd.read_csv(path)
+
+    # Hapus kolom yang tidak berguna
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+    if 'Name' in df.columns:
+        df = df.drop(columns=['Name'])
+
+    return df
 
 try:
     df = load_data(data_path)
 
     # Tampilkan seluruh data
-    st.subheader("🔍 Seluruh Data")
+    st.subheader("🔍 Seluruh Data (Bersih)")
     st.dataframe(df)
 
     # Info umum
@@ -40,40 +47,31 @@ try:
     # Visualisasi Data
     st.subheader("📊 Visualisasi Data")
 
-    # 1. Histogram Kadar Hemoglobin
-    if 'hemoglobin' in df.columns:
-        st.markdown("#### Distribusi Kadar Hemoglobin")
+    # 1. Histogram Hb
+    if 'Hb' in df.columns:
+        st.markdown("#### Distribusi Kadar Hemoglobin (Hb)")
         fig1, ax1 = plt.subplots()
-        sns.histplot(df['hemoglobin'].dropna(), bins=20, kde=True, color='skyblue', ax=ax1)
+        sns.histplot(df['Hb'].dropna(), bins=20, kde=True, color='skyblue', ax=ax1)
         st.pyplot(fig1)
     else:
-        st.warning("Kolom 'hemoglobin' tidak ditemukan di dataset.")
+        st.warning("Kolom 'Hb' tidak ditemukan di dataset.")
 
-    # 2. Barplot Anemia Berdasarkan Jenis Kelamin
-    if 'gender' in df.columns and 'anemia' in df.columns:
-        st.markdown("#### Jumlah Kasus Anemia Berdasarkan Jenis Kelamin")
+    # 2. Boxplot Hb vs Status Anemia
+    if 'Hb' in df.columns and 'Anaemic' in df.columns:
+        st.markdown("#### Distribusi Hb Berdasarkan Status Anemia")
         fig2, ax2 = plt.subplots()
-        sns.countplot(data=df, x='gender', hue='anemia', palette='Set2', ax=ax2)
+        sns.boxplot(data=df, x='Anaemic', y='Hb', palette='Pastel1', ax=ax2)
         st.pyplot(fig2)
     else:
-        st.warning("Kolom 'gender' dan/atau 'anemia' tidak ditemukan.")
+        st.warning("Kolom 'Hb' dan/atau 'Anaemic' tidak ditemukan.")
 
-    # 3. Boxplot Umur dan Anemia
-    if 'age' in df.columns and 'anemia' in df.columns:
-        st.markdown("#### Distribusi Umur Berdasarkan Status Anemia")
-        fig3, ax3 = plt.subplots()
-        sns.boxplot(data=df, x='anemia', y='age', palette='Pastel1', ax=ax3)
-        st.pyplot(fig3)
-    else:
-        st.warning("Kolom 'age' dan/atau 'anemia' tidak ditemukan.")
-
-    # 4. Korelasi antar variabel numerik
+    # 3. Korelasi Antar Variabel Numerik
     if st.checkbox("Tampilkan Korelasi Antar Variabel"):
-        st.subheader("🔗 Korelasi Antar Variabel")
+        st.subheader("🔗 Korelasi Antar Variabel Numerik")
         corr = df.corr(numeric_only=True)
-        fig4, ax4 = plt.subplots()
-        sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax4)
-        st.pyplot(fig4)
+        fig3, ax3 = plt.subplots()
+        sns.heatmap(corr, annot=True, cmap="coolwarm", ax=ax3)
+        st.pyplot(fig3)
 
 except FileNotFoundError:
     st.error("Dataset tidak ditemukan. Pastikan file 'anemia_dataset.csv' ada di folder 'data/'.")
