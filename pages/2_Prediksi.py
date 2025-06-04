@@ -12,83 +12,75 @@ st.title("🩸 Prediksi Anemia Berdasarkan Data Pasien")
 try:
     # Baca dataset
     df = pd.read_csv("data/anemia_dataset.csv")
+
+    # Bersihkan data
     df = df.loc[:, ~df.columns.str.contains("Unnamed")]
     df = df.drop(columns=["Name", "Number"], errors="ignore")
     df.columns = df.columns.str.strip()
 
-    if "Anaemic" not in df.columns:
-        st.error("❌ Kolom 'Anaemic' tidak ditemukan di dataset.")
+    # Konversi target "Yes"/"No" → 1/0
+    if "Anaemic" in df.columns:
+        df["Anaemic"] = df["Anaemic"].map({"Yes": 1, "No": 0})
     else:
-        # Target dan fitur
-        X = df.drop(columns=["Anaemic"])
-        y = df["Anaemic"]
+        st.error("❌ Kolom 'Anaemic' tidak ditemukan.")
+        st.stop()
 
-        # Deteksi kolom numerik dan kategorikal
-        numeric_cols = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
-        categorical_cols = X.select_dtypes(include=["object", "category"]).columns.tolist()
+    # Pisahkan fitur dan target
+    X = df.drop(columns=["Anaemic"])
+    y = df["Anaemic"]
 
-        # Encoding dan normalisasi
-        X_encoded = pd.get_dummies(X, columns=categorical_cols, drop_first=True)
-        scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X_encoded)
+    # Deteksi numerik dan kategorikal
+    numeric_cols = X.select_dtypes(include=["int64", "float64"]).columns.tolist()
+    categorical_cols = X.select_dtypes(include=["object", "category"]).columns.tolist()
 
-        # Tampilkan distribusi label
-        st.subheader("🔍 Distribusi Label")
-        st.write(y.value_counts())
+    # Encoding kategorikal (tidak perlu karena semua fitur numerik)
+    X_encoded = X.copy()  # karena tidak ada kolom kategorikal
 
-        # Split untuk evaluasi
-        X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
+    # Normalisasi
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X_encoded)
 
-        # Pilihan model
-        model_choice = st.selectbox(
-            "📌 Pilih Metode Klasifikasi",
-            ["Decision Tree", "K-Nearest Neighbors (KNN)", "Naive Bayes"]
-        )
+    # Distribusi label
+    st.subheader("🔍 Distribusi Label")
+    st.write(y.value_counts())
 
-        if model_choice == "K-Nearest Neighbors (KNN)":
-            model = KNeighborsClassifier(n_neighbors=3)
-        elif model_choice == "Naive Bayes":
-            model = GaussianNB()
-        else:
-            model = DecisionTreeClassifier(random_state=42)
+    # Split dan evaluasi
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
-        model.fit(X_train, y_train)
-        y_pred = model.predict(X_test)
+    model_choice = st.selectbox(
+        "📌 Pilih Metode Klasifikasi",
+        ["Decision Tree", "K-Nearest Neighbors (KNN)", "Naive Bayes"]
+    )
 
-        # Evaluasi model
-        st.subheader("📊 Evaluasi Model")
-        st.text(classification_report(y_test, y_pred))
+    if model_choice == "K-Nearest Neighbors (KNN)":
+        model = KNeighborsClassifier(n_neighbors=3)
+    elif model_choice == "Naive Bayes":
+        model = GaussianNB()
+    else:
+        model = DecisionTreeClassifier(random_state=42)
 
-        # Input Data Baru
-        st.subheader("📝 Masukkan Data Baru untuk Prediksi")
-        input_data = {}
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
 
-        for col in numeric_cols:
-            max_val = float(df[col].max())
-            input_data[col] = st.number_input(
-                f"{col}", min_value=0.0, max_value=max_val, value=0.0
-            )
+    st.subheader("📊 Evaluasi Model")
+    st.text(classification_report(y_test, y_pred))
 
-        for col in categorical_cols:
-            options = df[col].dropna().unique().tolist()
-            selected = st.selectbox(f"{col}", options)
-            dummies = pd.get_dummies(df[[col]], drop_first=True)
-            for dummy_col in dummies.columns:
-                input_data[dummy_col] = 1.0 if selected in dummy_col else 0.0
+    # Form input prediksi baru
+    st.subheader("📝 Masukkan Data Baru untuk Prediksi")
+    input_data = {}
 
-        if st.button("🔮 Prediksi"):
-            input_df = pd.DataFrame([input_data])
+    for col in numeric_cols:
+        min_val = float(df[col].min())
+        max_val = float(df[col].max())
+        mean_val = float(df[col].mean())
+        input_data[col] = st.number_input(f"{col}", min_value=min_val, max_value=max_val, value=mean_val)
 
-            # Pastikan kolom sama persis dengan X_encoded
-            for col in X_encoded.columns:
-                if col not in input_df.columns:
-                    input_df[col] = 0.0
-            input_df = input_df[X_encoded.columns]
-
-            input_scaled = scaler.transform(input_df)
-            prediction = model.predict(input_scaled)[0]
-            hasil = "Anemia" if prediction == 1 else "Tidak Anemia"
-            st.success(f"✅ Hasil Prediksi: **{hasil}**")
+    if st.button("🔮 Prediksi"):
+        input_df = pd.DataFrame([input_data])
+        input_scaled = scaler.transform(input_df)
+        prediction = model.predict(input_scaled)[0]
+        hasil = "Anemia" if prediction == 1 else "Tidak Anemia"
+        st.success(f"✅ Hasil Prediksi: **{hasil}**")
 
 except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
