@@ -18,12 +18,12 @@ try:
     st.write("Kolom tersedia di dataset:", df.columns.tolist())
 
     # Pastikan kolom target ada
-    if "Anemia" not in df.columns:
-        st.error("Kolom 'Anemia' tidak ditemukan di dataset.")
+    if "Anaemic" not in df.columns:
+        st.error("Kolom 'Anaemic' tidak ditemukan di dataset.")
     else:
         # Pisahkan fitur dan target
-        X = df.drop(columns=["Anemia"])
-        y = df["Anemia"]
+        X = df.drop(columns=["Anaemic"])
+        y = df["Anaemic"]
 
         # Normalisasi
         scaler = StandardScaler()
