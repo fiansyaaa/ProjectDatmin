@@ -18,13 +18,6 @@ data_path = os.path.join("data", "anemia_dataset.csv")
 try:
     df = pd.read_csv(data_path)
 
-    # Bersihkan kolom penting
-    cols_needed = ['hemoglobin', 'age', 'gender', 'anemia']
-    for col in cols_needed:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors='coerce') if col in ['hemoglobin', 'age'] else df[col]
-    df.dropna(subset=cols_needed, inplace=True)
-
     # Tampilkan seluruh data
     st.subheader("🔍 Seluruh Data")
     st.dataframe(df)
@@ -66,6 +59,4 @@ try:
         st.pyplot(fig3)
 
 except FileNotFoundError:
-    st.error("❌ Dataset tidak ditemukan. Pastikan file 'anemia_dataset.csv' ada di folder 'data/'.")
-except Exception as e:
-    st.error(f"❌ Terjadi error: {e}")
+    st.error("Dataset tidak ditemukan. Pastikan file 'anemia_dataset.csv' ada di folder 'data/'.")
