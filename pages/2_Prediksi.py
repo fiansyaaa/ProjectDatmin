@@ -58,7 +58,7 @@ try:
                 f"{col}",
                 min_value=0.0,
                 max_value=max_val,
-                value=mean_val
+                value=0.00
             )
 
         # Input kategorik
