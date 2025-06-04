@@ -19,8 +19,8 @@ st.markdown("""Mata Kuliah ini dibimbing oleh: Bapak M. Faris Al Hakim S.Pd., M.
 st.header("Fitur Aplikasi")
 st.markdown("""
 Aplikasi ini memiliki dua fitur yaitu:
-1. Data Gempa Bumi – Menampilkan grafik dan tabel interaktif dari dataset gempa bumi yang digunakan.
-2. Prediksi Gempa Bumi – Membersihkan dan mempersiapkan data untuk dianalisis dan prediksi kejadian gempa bumi.
+1. Data Anemia – Menampilkan grafik dan tabel interaktif dari dataset anemia yang digunakan.
+2. Prediksi Anemia – Membersihkan dan mempersiapkan data untuk dianalisis dan prediksi anemia.
 """)
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
