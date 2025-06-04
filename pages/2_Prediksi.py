@@ -5,32 +5,29 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 
-st.title("🔬 Prediksi Anemia")
+st.title("Prediksi Anemia")
 
 try:
     # Baca dataset
     df = pd.read_csv("data/anemia_dataset.csv")
 
-    # Hilangkan spasi di nama kolom
-    df.columns = df.columns.str.strip()
+    # Bersihkan kolom: hapus yang tidak perlu
+    df = df.loc[:, ~df.columns.str.contains("Unnamed")]
+    df = df.drop(columns=["Name"], errors="ignore")  # hapus 'Name' kalau ada
 
-    # Tampilkan kolom untuk debug
-    st.write("📌 Kolom tersedia di dataset:", df.columns.tolist())
+    # Rename agar konsisten (opsional)
+    df.columns = df.columns.str.strip()
 
     # Pastikan kolom target ada
     if "Anaemic" not in df.columns:
-        st.error("Kolom 'Anaemic' tidak ditemukan di dataset.")
+        st.error("Kolom 'Anaemic' tidak ditemukan.")
     else:
-        # Pisahkan fitur dan target
         X = df.drop(columns=["Anaemic"])
         y = df["Anaemic"]
 
-        # Ubah kolom kategorikal ke numerik jika ada (otomatis)
-        X_encoded = pd.get_dummies(X, drop_first=True)
-
         # Normalisasi
         scaler = StandardScaler()
-        X_scaled = scaler.fit_transform(X_encoded)
+        X_scaled = scaler.fit_transform(X)
 
         # Pilih model
         model_choice = st.selectbox("Pilih Metode Klasifikasi", ["K-Nearest Neighbors (KNN)", "Naive Bayes"])
@@ -42,32 +39,21 @@ try:
         # Latih model
         model.fit(X_scaled, y)
 
-        st.subheader("📥 Masukkan Data Baru untuk Prediksi")
+        st.subheader("Masukkan Data Baru untuk Prediksi")
         input_data = {}
 
-        # Input fitur sesuai X_encoded.columns (yang sudah one-hot encoded)
+        # Input angka sesuai fitur
         for col in X.columns:
-            if X[col].dtype in ['int64', 'float64']:
-                val = st.number_input(f"{col}", value=float(df[col].mean()))
-                input_data[col] = val
-            else:
-                unique_vals = df[col].unique().tolist()
-                val = st.selectbox(f"{col}", unique_vals)
-                input_data[col] = val
+            val = st.number_input(f"{col}", value=float(df[col].mean()))
+            input_data[col] = val
 
-        # Proses input data sesuai transformasi .get_dummies
-        input_df = pd.DataFrame([input_data])
-        input_encoded = pd.get_dummies(input_df)
-        input_encoded = input_encoded.reindex(columns=X_encoded.columns, fill_value=0)
+        if st.button("Prediksi"):
+            input_df = pd.DataFrame([input_data])
+            input_scaled = scaler.transform(input_df)
+            pred = model.predict(input_scaled)[0]
 
-        # Tombol prediksi
-        if st.button("🔍 Prediksi"):
-            input_scaled = scaler.transform(input_encoded)
-            prediction = model.predict(input_scaled)[0]
-            hasil = "Anemia" if prediction == 1 else "Tidak Anemia"
-            st.success(f"✅ Hasil Prediksi: **{hasil}**")
+            hasil = "Anemia" if pred == 1 else "Tidak Anemia"
+            st.success(f"Hasil Prediksi: {hasil}")
 
 except FileNotFoundError:
-    st.error("❌ File anemia_dataset.csv tidak ditemukan di folder 'data/'.")
-except Exception as e:
-    st.error(f"❌ Terjadi error: {e}")
+    st.error("File anemia_dataset.csv tidak ditemukan di folder 'data/'.")
