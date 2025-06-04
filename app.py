@@ -9,6 +9,7 @@ st.markdown("""Halo! Kami dari kelompok 1 Data Mining yang terdiri dari:
 3. Aulia Fitri Za'imah (4101422053)
 4. Yarfak Rafiansya Saputra (4101422067)
 5. Ani Rahayu (2304030003)
+
 Kami sedang mengerjakan sebuah proyek yang menerapkan konsep-konsep data mining untuk analisis data nyata.
 """)
 
