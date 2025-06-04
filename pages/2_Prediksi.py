@@ -73,7 +73,7 @@ try:
         min_val = float(df[col].min())
         max_val = float(df[col].max())
         mean_val = float(df[col].mean())
-        input_data[col] = st.number_input(f"{col}", min_value=min_val, max_value=max_val, value=0)
+        input_data[col] = st.number_input(f"{col}", min_value=min_val, max_value=max_val, value=mean_val)
 
     if st.button("🔮 Prediksi"):
         input_df = pd.DataFrame([input_data])
