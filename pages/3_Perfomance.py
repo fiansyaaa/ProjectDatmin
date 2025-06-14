@@ -63,9 +63,9 @@ except FileNotFoundError:
 # (Opsional) Tambahkan tombol kembali ke dashboard jika mau
 
 # Tombol Next ke halaman Prediksi
-if st.button("⬅️"):
+if st.button("⬅️ Next"):
     st.switch_page("pages/2_Prediksi.py")
 
-if st.button("Home"):
+if st.button("🏠Home"):
     st.switch_page("app.py")
 
