@@ -20,7 +20,7 @@ st.header("🛠️ Fitur Aplikasi")
 st.markdown("Aplikasi ini memiliki 3 fitur yaitu:")
 
 if st.button("1. Data Anemia"):
-    st.switch_page("pages/1_Dataset_Anemia.py")
+    st.switch_page("pages/1_Data_Anemia.py")
     
 if st.button("2. Prediksi Anemia"):
     st.switch_page("pages/2_Prediksi.py")
