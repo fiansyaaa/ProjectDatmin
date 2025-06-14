@@ -66,5 +66,6 @@ except FileNotFoundError:
 if st.button("⬅️"):
     st.switch_page("pages/2_Prediksi.py")
 
-if st.button("➡️"):
-    st.switch_page("pages/1_Data_Anemia.py")
+if st.button("Home"):
+    st.switch_page("app.py")
+
