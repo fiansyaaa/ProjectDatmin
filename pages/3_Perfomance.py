@@ -52,7 +52,7 @@ try:
 
     st.subheader("🧾 Confusion Matrix")
     cm = confusion_matrix(y_uji, y_pred)
-    df_cm = pd.DataFrame(cm, index=["Aktual: Tidak Anemia", "Aktual: Anemia"],More actions
+    df_cm = pd.DataFrame(cm, index=["Aktual: Tidak Anemia", "Aktual: Anemia"],
                          columns=["Prediksi: Tidak Anemia", "Prediksi: Anemia"])
     sns.heatmap(df_cm, annot=True, fmt='d', cmap='Blues')
     st.pyplot(plt)
