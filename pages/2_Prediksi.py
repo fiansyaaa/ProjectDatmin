@@ -92,4 +92,6 @@ try:
 except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
 
-
+# Tombol Next ke halaman Performance
+if st.button("➡️ Next: Evaluasi Model"):
+    st.switch_page("pages/3_Performance.py")
