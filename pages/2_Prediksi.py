@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
@@ -43,7 +42,6 @@ try:
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X_encoded)
 
-
     # Split data
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
@@ -62,11 +60,7 @@ try:
 
     # Latih model
     model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-
-    # Evaluasi
-    st.subheader("📊 Evaluasi Model")
-    st.text(classification_report(y_test, y_pred))
+    y_pred = model.predict(X_test)  # Tidak ditampilkan
 
     # Form input prediksi baru
     st.subheader("📝 Masukkan Data Baru untuk Prediksi")
