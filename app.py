@@ -17,11 +17,12 @@ st.header("🧑‍🏫 Dosen Pengampu")
 st.markdown("""Mata Kuliah ini dibimbing oleh: Bapak M. Faris Al Hakim S.Pd., M.Cs.""")
 
 st.header("🛠️ Fitur Aplikasi")
-st.markdown("""
-Aplikasi ini memiliki 3 fitur yaitu:
-1. Data Anemia – Menampilkan grafik dan tabel interaktif dari dataset anemia yang digunakan.
-2. Prediksi Anemia – Memprediksi anemia dengan 3 pilihan metode, yaitu KNN, Naive Bayes, dan Decision Tree.
-2. Performance Model – Membersihkan dan mempersiapkan data anemia untuk dianalisis.
+st.markdown("Aplikasi ini memiliki 3 fitur yaitu:")
+
+st.page_link("pages/1_Dataset_Anemia.py", label="📈 Data Anemia", icon="📊")
+st.page_link("pages/2_Prediksi.py", label="🧠 Prediksi Anemia", icon="🔮")
+st.page_link("pages/3_Performance.py", label="📋 Performance Model", icon="📈")
+
 """)
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
