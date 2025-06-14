@@ -3,7 +3,7 @@ st.set_page_config(page_title="Proyek Data Mining", layout="centered")
 st.title("📊 Proyek Data Mining")
 
 st.header("👥 Perkenalan Kelompok")
-st.markdown("""Halo! Kami dari kelompok 1 Data Mining yang terdiri dari:
+st.markdown("""Halo! 👋 Kami dari kelompok 1 Data Mining yang terdiri dari:
 1. Dayinta Ajeng Nariswari (4101400048)
 2. Firyal Daffa Nisrinna (4101422049)
 3. Aulia Fitri Za'imah (4101422053)
@@ -18,9 +18,10 @@ st.markdown("""Mata Kuliah ini dibimbing oleh: Bapak M. Faris Al Hakim S.Pd., M.
 
 st.header("🛠️ Fitur Aplikasi")
 st.markdown("""
-Aplikasi ini memiliki dua fitur yaitu:
+Aplikasi ini memiliki 3 fitur yaitu:
 1. Data Anemia – Menampilkan grafik dan tabel interaktif dari dataset anemia yang digunakan.
-2. Prediksi Anemia – Membersihkan dan mempersiapkan data untuk dianalisis dan prediksi anemia.
+2. Prediksi Anemia – Memprediksi anemia dengan 3 pilihan metode, yaitu KNN, Naive Bayes, dan Decision Tree.
+2. Performance Model – Membersihkan dan mempersiapkan data anemia untuk dianalisis.
 """)
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
