@@ -46,6 +46,10 @@ try:
     # Prediksi
     y_pred = model.predict(X_uji)
 
+    # Tampilkan evaluasi model
+    st.subheader("📊 Laporan Klasifikasi")
+    st.text(classification_report(y_uji, y_pred, target_names=["Tidak Anemia", "Anemia"]))
+
     st.subheader("🧾 Confusion Matrix")
     cm = confusion_matrix(y_uji, y_pred)
     df_cm = pd.DataFrame(cm, index=["Aktual: Tidak Anemia", "Aktual: Anemia"],
