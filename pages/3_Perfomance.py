@@ -1,11 +1,14 @@
 import streamlit as st
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
-st.title("📈 Prediksi Anemia Berdasarkan Data Pasien")  # Ganti judul juga agar tidak menyebut evaluasi
+st.title("📈 Evaluasi Kinerja Model Prediksi Anemia")
 
 try:
     # Load dataset
@@ -31,20 +34,28 @@ try:
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
-    # Split data latih dan uji
+    # Split data latih dan data uji
     X_latih, X_uji, y_latih, y_uji = train_test_split(
         X_scaled, y, test_size=0.2, random_state=42
     )
 
-    # Latih model Decision Tree
+    # Buat dan latih model
     model = DecisionTreeClassifier(random_state=42)
     model.fit(X_latih, y_latih)
 
-    # Prediksi (tanpa menampilkan apa pun)
-    _ = model.predict(X_uji)
+    # Prediksi
+    y_pred = model.predict(X_uji)
 
-    # Info ringkas saja jika mau
-    st.success("✅ Model telah dilatih dengan sukses.")
+    # Tampilkan evaluasi model
+    st.subheader("📊 Laporan Klasifikasi")
+    st.text(classification_report(y_uji, y_pred, target_names=["Tidak Anemia", "Anemia"]))
+
+    st.subheader("🧾 Confusion Matrix")
+    cm = confusion_matrix(y_uji, y_pred)
+    df_cm = pd.DataFrame(cm, index=["Aktual: Tidak Anemia", "Aktual: Anemia"],More actions
+                         columns=["Prediksi: Tidak Anemia", "Prediksi: Anemia"])
+    sns.heatmap(df_cm, annot=True, fmt='d', cmap='Blues')
+    st.pyplot(plt)
 
 except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
