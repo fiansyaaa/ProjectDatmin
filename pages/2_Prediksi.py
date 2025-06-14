@@ -91,17 +91,5 @@ try:
 
 except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
-   col1, col2 = st.columns(2)
 
-with col1:
-    if st.button("⬅️ Back: Data Anemia"):
-        st.query_params.update(page="dashboard")
-
-with col2:
-    if st.button("➡️ Next: Performance"):
-        st.query_params.update(page="performance")
-
-with col2:
-    if st.button("➡️ Next: Performance"):
-        st.experimental_set_query_params(page="performance")
 
