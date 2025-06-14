@@ -21,6 +21,7 @@ st.markdown("Aplikasi ini memiliki 3 fitur yaitu:")
 
 if st.button("1. Data Anemia"):
     st.switch_page("pages/1_Data_Anemia.py")
+     st.markdown("""Menampilkan grafik dan tabel interaktif dari dataset anemia yang digunakan.""")
     
 if st.button("2. Prediksi Anemia"):
     st.switch_page("pages/2_Prediksi.py")
