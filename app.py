@@ -19,15 +19,17 @@ st.markdown("""Mata Kuliah ini dibimbing oleh: Bapak M. Faris Al Hakim S.Pd., M.
 st.header("🛠️ Fitur Aplikasi")
 st.markdown("Aplikasi ini memiliki 3 fitur yaitu:")
 
-if st.button("📈 Ke Data Anemia"):
+if st.button("1. Data Anemia"):
     st.switch_page("pages/1_Dataset_Anemia.py")
-
-if st.button("🧠 Ke Prediksi Anemia"):
+    st.markdown("""Menampilkan grafik dan tabel interaktif dari dataset anemia yang digunakan.""")
+    
+if st.button("2. Prediksi Anemia"):
     st.switch_page("pages/2_Prediksi.py")
+    st.markdown("""Memprediksi anemia dengan 3 pilihan metode, yaitu KNN, Naive Bayes, dan Decision Tree.""")
 
-if st.button("📋 Ke Performance"):
+if st.button("3. Performance"):
     st.switch_page("pages/3_Performance.py")
-
-
+    st.markdown("""Membersihkan dan mempersiapkan data anemia untuk dianalisis.""")
+    
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
