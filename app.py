@@ -19,9 +19,15 @@ st.markdown("""Mata Kuliah ini dibimbing oleh: Bapak M. Faris Al Hakim S.Pd., M.
 st.header("🛠️ Fitur Aplikasi")
 st.markdown("Aplikasi ini memiliki 3 fitur yaitu:")
 
-st.page_link("pages/1_Dataset_Anemia.py", label="📈 Data Anemia", icon="📊")
-st.page_link("pages/2_Prediksi.py", label="🧠 Prediksi Anemia", icon="🔮")
-st.page_link("pages/3_Performance.py", label="📋 Performance Model", icon="📈")
+if st.button("📈 Ke Data Anemia"):
+    st.switch_page("pages/1_Dataset_Anemia.py")
+
+if st.button("🧠 Ke Prediksi Anemia"):
+    st.switch_page("pages/2_Prediksi.py")
+
+if st.button("📋 Ke Performance"):
+    st.switch_page("pages/3_Performance.py")
+
 
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
