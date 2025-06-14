@@ -26,7 +26,7 @@ if st.button("2. Prediksi Anemia"):
     st.switch_page("pages/2_Prediksi.py")
 st.markdown("3. Performance Model – Membersihkan dan mempersiapkan data anemia untuk dianalisis.")
 if st.button("3. Performance"):
-    st.switch_page("pages/3_Performance.py")
+    st.switch_page("pages/3_Perfomance.py")
     
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
