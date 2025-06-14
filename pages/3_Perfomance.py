@@ -61,9 +61,9 @@ except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
     
 # (Opsional) Tambahkan tombol kembali ke dashboard jika mau
-if st.button("⬅️ Kembali ke Halaman Awal"):
+if st.button("➡️"):
     st.switch_page("pages/1_Data_Anemia.py")
 
 # Tombol Next ke halaman Prediksi
-if st.button("➡️ Kembali ke Prediksi"):
+if st.button("⬅️"):
     st.switch_page("pages/2_Prediksi.py")
