@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.tree import DecisionTreeClassifier
+
+# Import model dari modul terpisah
+from model.knn import get_model as get_knn
+from model.naive_bayes import get_model as get_nb
+from model.decision_tree import get_model as get_dt
 
 st.title("🩸 Prediksi Anemia Berdasarkan Data Pasien")
 
@@ -51,16 +53,16 @@ try:
         ["Decision Tree", "K-Nearest Neighbors (KNN)", "Naive Bayes"]
     )
 
+    # Ambil model dari file
     if model_choice == "K-Nearest Neighbors (KNN)":
-        model = KNeighborsClassifier(n_neighbors=3)
+        model = get_knn()
     elif model_choice == "Naive Bayes":
-        model = GaussianNB()
+        model = get_nb()
     else:
-        model = DecisionTreeClassifier(random_state=42)
+        model = get_dt()
 
     # Latih model
     model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)  # Tidak ditampilkan
 
     # Form input prediksi baru
     st.subheader("📝 Masukkan Data Baru untuk Prediksi")
@@ -75,7 +77,7 @@ try:
     if st.button("🔮 Prediksi"):
         input_df = pd.DataFrame([input_data])
 
-        # Perlu samakan fitur input dengan yang dipakai di training
+        # Samakan fitur input dengan X_encoded
         if categorical_cols:
             dummy_input = pd.get_dummies(input_df)
             dummy_input = dummy_input.reindex(columns=X_encoded.columns, fill_value=0)
