@@ -63,3 +63,7 @@ except FileNotFoundError:
 # (Opsional) Tambahkan tombol kembali ke dashboard jika mau
 if st.button("⬅️ Kembali ke Halaman Awal"):
     st.switch_page("pages/1_Data_Anemia.py")
+
+# Tombol Next ke halaman Prediksi
+if st.button("➡️ Next: Prediksi"):
+    st.switch_page("pages/2_Prediksi.py")
