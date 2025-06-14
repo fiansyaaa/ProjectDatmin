@@ -92,8 +92,6 @@ try:
 except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
 
-if st.button("➡️ Ke Performance"):
-    st.switch_page("3_Performance.py")
-
-if st.button("⬅️ Kembali ke Dataset"):
-    st.switch_page("1_Dataset_Anemia.py")
+# (Opsional) Tambahkan tombol kembali ke dashboard jika mau
+if st.button("⬅️ Kembali ke Halaman Awal"):
+    st.switch_page("pages/1_Data_Anemia.py")
