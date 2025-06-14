@@ -76,3 +76,6 @@ try:
 except FileNotFoundError:
     st.error("Dataset tidak ditemukan. Pastikan file 'anemia_dataset.csv' ada di folder 'data/'.")
     
+# Tombol Next ke halaman Prediksi
+if st.button("➡️ Next: Prediksi"):
+    st.switch_page("pages/2_Prediksi.py")
