@@ -59,6 +59,4 @@ try:
 
 except FileNotFoundError:
     st.error("❌ File 'anemia_dataset.csv' tidak ditemukan di folder 'data/'.")
-    # Tombol BACK ke Prediksi
-if st.button("⬅️ Back: Prediksi"):
-    st.experimental_set_query_params(page="prediksi")
+    
