@@ -23,6 +23,5 @@ st.page_link("pages/1_Dataset_Anemia.py", label="📈 Data Anemia", icon="📊")
 st.page_link("pages/2_Prediksi.py", label="🧠 Prediksi Anemia", icon="🔮")
 st.page_link("pages/3_Performance.py", label="📋 Performance Model", icon="📈")
 
-""")
 st.markdown("---")
 st.caption("Dibuat dengan ❤️ oleh Kelompok 1 Data Mining")
