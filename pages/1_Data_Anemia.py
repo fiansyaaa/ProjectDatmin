@@ -78,4 +78,4 @@ except FileNotFoundError:
     
 # Tombol Next ke halaman Prediksi
 if st.button("➡️ Next"):
-    st.switch_page("pages/2_Prediksi.py")
+    st.switch_page("pages/2_Performance.py")
