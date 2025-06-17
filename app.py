@@ -23,7 +23,7 @@ if st.button("1. Data Anemia"):
     st.switch_page("pages/1_Data_Anemia.py")
 st.markdown("2. Performance Model – Membersihkan dan mempersiapkan data anemia untuk dianalisis.")
 if st.button("2. Performance"):
-    st.switch_page("pages/2_Perfomance.py")
+    st.switch_page("pages/2_Performance.py")
 st.markdown("3. Prediksi Anemia – Memprediksi anemia dengan 3 pilihan metode, yaitu KNN, Naive Bayes, dan Decision Tree.")
 if st.button("3. Prediksi Anemia"):
     st.switch_page("pages/3_Prediksi.py")
