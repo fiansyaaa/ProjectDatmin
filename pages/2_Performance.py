@@ -67,7 +67,7 @@ if st.button("⬅️ Back"):
 
 # Tombol Next ke halaman berikutnya
 if st.button("➡️ Next"):
-    st.switch_page("pages/3_Perfomance.py")
+    st.switch_page("pages/3_Prediksi.py")
 
 
 
